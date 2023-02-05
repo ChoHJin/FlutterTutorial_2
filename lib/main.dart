@@ -39,18 +39,21 @@ class MyHomePage extends StatelessWidget {
     var pair = appState.current;
 
     return Scaffold(
-      body: Column(
-        children: [
-          Text('A random idea : '),
-          BigCard(pair: pair),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,  //기본(수직)축을 따라 중앙에 배치하도록 함.
+          children: [
+            SizedBox(height: 10,),
+            BigCard(pair: pair),
 
-          ElevatedButton(
-              onPressed: () {
-                appState.getNext();
-              },
-              child: Text('Next'),
-          ),
-        ],
+            ElevatedButton(
+                onPressed: () {
+                  appState.getNext();
+                },
+                child: Text('Next'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -66,6 +69,21 @@ class BigCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(pair.asLowerCase);
+    var theme = Theme.of(context);
+    var style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+    );
+
+    return Card(
+      color: theme.colorScheme.primary,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+            pair.asLowerCase,
+            style: style,
+            semanticsLabel: pair.asPascalCase,
+        ),
+      ),
+    );
   }
 }
